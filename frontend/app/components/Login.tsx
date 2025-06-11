@@ -11,6 +11,7 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ closeForm, switchToSignUp }) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [error, setError] = useState<string | null>(null);
   const { login } = useAppContext();
 
@@ -30,7 +31,7 @@ const Login: React.FC<LoginProps> = ({ closeForm, switchToSignUp }) => {
     onSubmit: async (values) => {
       setError(null);
       try {
-        const res = await axios.post(`http://localhost:3000/api/user/login`, values);
+        const res = await axios.post(`${apiUrl}/api/user/login`, values);
         const token = res.data.token;
         login(token);
         localStorage.setItem('authToken', token);

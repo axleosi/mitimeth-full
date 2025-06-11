@@ -60,6 +60,7 @@ interface JwtPayload {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -111,7 +112,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         await Promise.all(
           guestCart.map((item) =>
             axios.post(
-              `http://localhost:3000/api/cart`,
+              `${apiUrl}/api/cart`,
               {
                 productId: item.productId,
                 quantity: item.quantity,
@@ -141,7 +142,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     if (token) {
       try {
-        await axios.delete(`http://localhost:3000/api/cart`, {
+        await axios.delete(`${apiUrl}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       } catch (err: unknown) {
@@ -168,7 +169,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchProduct = useCallback(async (productId: string) => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/product/${productId}`);
+      const res = await axios.get(`${apiUrl}/api/product/${productId}`);
       setProduct(res.data.product);
     } catch {
       setError('Failed to load product');
@@ -188,7 +189,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:3000/api/cart`, {
+      const res = await axios.get(`${apiUrl}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -219,7 +220,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
 
     await axios.post(
-      `http://localhost:3000/api/cart`,
+      `${apiUrl}/api/cart`,
       { productId: product._id, quantity, imageUrl },
       { headers: { Authorization: `Bearer ${token}` } }
     );

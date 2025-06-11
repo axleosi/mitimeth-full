@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios"; // Import AxiosError type
 
 const AdminLogin = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -10,7 +11,7 @@ const AdminLogin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/admin/login", {
+      const response = await axios.post(`${apiUrl}/api/admin/login`, {
         email,
         password,
       });
@@ -19,12 +20,9 @@ const AdminLogin = () => {
       localStorage.setItem("authToken", response.data.token);
       alert("Login successful!");
 
-      // You can now redirect to the admin dashboard or any other page
       window.location.href = "/admin/dashboard"; 
     } catch (error: unknown) {
-      // Typecast error to AxiosError
       if (axios.isAxiosError(error)) {
-        // Now TypeScript knows the structure of the error
         setErrorMessage(error.response?.data.message || "Login failed");
       } else {
         setErrorMessage("An error occurred");

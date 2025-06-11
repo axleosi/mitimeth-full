@@ -30,6 +30,7 @@ type Product = {
 };
 
 const Checkout = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const [address, setAddress] = useState({ state: '', lga: '', street: '' });
   const [loading, setLoading] = useState(false);
@@ -59,7 +60,7 @@ const Checkout = () => {
       }
 
       try {
-        const res = await axios.get(`http://localhost:3000/api/cart`, {
+        const res = await axios.get(`${apiUrl}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCartItems(res.data.cart);
@@ -113,7 +114,7 @@ const Checkout = () => {
         }));
 
       await axios.post(
-        `http://localhost:3000/api/orders`,
+        `${apiUrl}/api/orders`,
         {
           items,
           address: `${street}, ${lga}, ${state}`,

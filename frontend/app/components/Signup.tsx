@@ -10,6 +10,7 @@ interface SignUpProps {
 }
 
 const SignUp: React.FC<SignUpProps> = ({ closeForm, switchToLogin }) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,7 +33,7 @@ const SignUp: React.FC<SignUpProps> = ({ closeForm, switchToLogin }) => {
     onSubmit: async (values) => {
       setErrorMessage("");
       try {
-        const response = await axios.post(`http://localhost:3000/api/user/signup`, values);
+        const response = await axios.post(`${apiUrl}/api/user/signup`, values);
         localStorage.setItem('authToken', response.data.token);
         closeForm();
       } catch (err: unknown) {

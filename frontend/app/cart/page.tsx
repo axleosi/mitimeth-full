@@ -26,6 +26,7 @@ type GuestCartItem = {
 };
 
 const Cart = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { fetchCartCount, isLoggedIn, cartItems, setCartItems } = useAppContext();
@@ -63,7 +64,7 @@ const Cart = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:3000/api/cart`, {
+      const res = await axios.get(`${apiUrl}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -112,7 +113,7 @@ const Cart = () => {
 
     try {
       await axios.patch(
-        `http://localhost:3000/api/cart/${itemId}`,
+        `${apiUrl}/api/cart/${itemId}`,
         { quantity: newQuantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -155,7 +156,7 @@ const Cart = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/api/cart/${itemId}`, {
+      await axios.delete(`${apiUrl}/api/cart/${itemId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

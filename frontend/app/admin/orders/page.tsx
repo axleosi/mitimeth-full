@@ -26,6 +26,7 @@ type Order = {
 };
 
 export default function AdminOrders() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [orders, setOrders] = useState<Order[]>([]);
   const [error, setError] = useState<string>('');
 
@@ -33,7 +34,7 @@ export default function AdminOrders() {
     async function fetchOrders() {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('http://localhost:3000/api/order/admin', {
+        const res = await axios.get(`${apiUrl}/api/order/admin`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(res.data);

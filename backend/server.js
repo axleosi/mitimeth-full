@@ -16,7 +16,7 @@ const MONGO_URI=process.env.MONGO_URI;
 app.use(express.json())
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://your-frontend.vercel.app' 
+  'https://mitimeth-full-mwzq.vercel.app' 
 ];
 
 app.use(cors({
