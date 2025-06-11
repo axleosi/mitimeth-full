@@ -14,13 +14,9 @@ const PORT=process.env.PORT || 3000;
 const MONGO_URI=process.env.MONGO_URI;
 
 app.use(express.json())
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://mitimeth-full-mwzq.vercel.app' 
-];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: 'https://mitimeth-full.vercel.app',
   credentials: true, 
 }));
 const connectDB= async()=>{
