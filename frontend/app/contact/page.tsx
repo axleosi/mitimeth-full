@@ -1,7 +1,9 @@
+'use client'
 import React from 'react'
+import dynamic from 'next/dynamic';
 import styles from './Contact.module.css'
 import Form from '../components/Form'
-import Map from '../components/Map'
+const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
 const contact = () => {
   return (
