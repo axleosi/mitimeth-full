@@ -19,15 +19,17 @@ const ProductPage = () => {
     quantity,
     setQuantity,
     isLoggedIn,
-    addToCart
+    addToCart,
+    setShowLogin
   } = useAppContext();
 
   const [cartError, setCartError] = useState<string | null>(null);
   const [cartSuccess, setCartSuccess] = useState<string | null>(null);
+  const [loginTriggerByCheckout, setLoginTriggeredByCheckout] = useState(false)
 
   useEffect(() => {
-  if (productId) fetchProduct(productId);
-}, [productId, fetchProduct]);
+    if (productId) fetchProduct(productId);
+  }, [productId, fetchProduct]);
 
   const increment = () => {
     if (product && quantity < 10) {
@@ -41,69 +43,78 @@ const ProductPage = () => {
     }
   };
 
- 
 
-const handleAddToCart = async () => {
-  try {
-    if (product) {
-      await addToCart(product, quantity, product.imageUrl);
-      setCartSuccess('Product added to cart!');
-      setCartError(null);
+
+  const handleAddToCart = async () => {
+    try {
+      if (product) {
+        await addToCart(product, quantity, product.imageUrl);
+        setCartSuccess('Product added to cart!');
+        setCartError(null);
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
+      } else if (err instanceof Error) {
+        setCartError('Failed to add to cart: ' + err.message);
+      } else {
+        setCartError('Failed to add to cart: Unknown error');
+      }
+      setCartSuccess(null);
     }
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err)) {
-      setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
-    } else if (err instanceof Error) {
-      setCartError('Failed to add to cart: ' + err.message);
-    } else {
-      setCartError('Failed to add to cart: Unknown error');
-    }
-    setCartSuccess(null);
-  }
-};
+  };
 
 
   const checkOut = async () => {
-  if (!isLoggedIn) {
-    router.push('/signup');
-    return;
-  }
-
-  const token = localStorage.getItem('authToken');
-  if (!token) {
-    setCartError('No auth token found. Please log in again.');
-    return;
-  }
-
-  try {
-    await axios.post(
-      `${apiUrl}/api/cart`,
-      {
-        productId: product?._id,
-        quantity,
-        imageUrl: product?.imageUrl,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    setCartSuccess('Product added to cart!');
-    setCartError(null);
-    router.push('/cart');
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err)) {
-      setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
-    } else if (err instanceof Error) {
-      setCartError('Failed to add to cart: ' + err.message);
-    } else {
-      setCartError('Failed to add to cart: Unknown error');
+    if (!isLoggedIn) {
+      setShowLogin(true)
+      setLoginTriggeredByCheckout(true);
+      return;
     }
-    setCartSuccess(null);
-  }
-};
+
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      setCartError('No auth token found. Please log in again.');
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${apiUrl}/api/cart`,
+        {
+          productId: product?._id,
+          quantity,
+          imageUrl: product?.imageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setCartSuccess('Product added to cart!');
+      setCartError(null);
+      router.push('/cart');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
+      } else if (err instanceof Error) {
+        setCartError('Failed to add to cart: ' + err.message);
+      } else {
+        setCartError('Failed to add to cart: Unknown error');
+      }
+      setCartSuccess(null);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn && loginTriggerByCheckout) {
+      router.push('/cart')
+      setLoginTriggeredByCheckout(false)
+      setShowLogin(false)
+    }
+  }, [isLoggedIn, loginTriggerByCheckout, router, setShowLogin])
 
 
   if (loading) return <p>Loading...</p>;
@@ -113,8 +124,8 @@ const handleAddToCart = async () => {
   return (
     <div className="max-w-6xl w-full px-6 mx-auto py-10">
       <p className="text-sm text-gray-500">
-        <button onClick={()=>router.push('/')}><span>Home/</span></button>  
-        <button onClick={()=>router.push('/shop')}><span>Products</span> /</button>{' '}
+        <button onClick={() => router.push('/')}><span>Home/</span></button>
+        <button onClick={() => router.push('/shop')}><span>Products</span> /</button>{' '}
         <span className="text-indigo-500">{product.name}</span>
       </p>
 
