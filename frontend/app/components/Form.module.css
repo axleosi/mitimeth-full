@@ -1,0 +1,60 @@
+.con{
+    margin: 20px 0px;
+    display:flex ;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    align-items: center;
+}
+.con h3{
+    font-size: 25px;
+}
+.formCon{
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.formG{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.formInd{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.formInd input{
+    border: 1px solid black;
+    width: 95%;
+    height: 40px;
+}
+.formInd textarea{
+    border: 1px solid black;
+    width: 95%;
+    height: 40px;
+}
+.formInd select{
+    border: 1px solid black;
+    width: 95%;
+    height: 40px;
+    
+}
+
+.formInd label{
+    font-weight: 600;
+}
+.error{
+    color: red;
+}
+.button{
+    color: white;
+    background-color: rgb(13, 104, 104);
+    padding: 10px 20px;
+    border-radius: 5px;
+}

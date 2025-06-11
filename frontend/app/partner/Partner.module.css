@@ -1,0 +1,32 @@
+.container{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+.bolder{
+    color: brown;
+    font-weight: 600;
+    font-size: 18px;
+}
+.text{
+    width: 90%;
+}
+.blueCon{
+    width: 90%;
+    height: 200px;
+    background-color: rgb(19, 132, 132);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.blue{
+    width: 90%;
+    padding: 60px;
+    color: white;
+}
+.blueT{
+    font-size: 18px;
+    font-weight: 600;
+}

@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    align-items: center;
+}
+.quote{
+    font-size: 20px;
+    font-weight: 600;
+}
+.text{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 90%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    align-items: center;
+}
+.form{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+.map{
+    z-index: 1;
+    width: 90%;
+    height: 500px;
+}
