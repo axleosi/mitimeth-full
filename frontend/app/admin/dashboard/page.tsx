@@ -50,7 +50,7 @@ export default function AdminDashboard() {
             ]);
             setProducts(prodRes.data.products || prodRes.data);
             setError('');
-        } catch (err) {
+        } catch {
             setError('Failed to load data');
         }
     };
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
             setForm(emptyProductInput);
             fetchData();
             setError('');
-        } catch (err) {
+        } catch {
             setError('Failed to save product');
         }
     };
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
             });
             fetchData();
             setError('');
-        } catch (err) {
+        } catch{
             setError('Failed to delete product');
         }
     };

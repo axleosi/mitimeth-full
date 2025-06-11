@@ -23,7 +23,7 @@ const Shop = () => {
         const res = await axios.get('http://localhost:3000/api/product');
         console.log('API response:', res.data);
         setProducts(res.data.products);
-      } catch (err) {
+      } catch{
         setError('Failed to fetch products');
       } finally {
         setLoading(false);

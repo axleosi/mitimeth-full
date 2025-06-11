@@ -14,7 +14,15 @@ const PORT=process.env.PORT || 3000;
 const MONGO_URI=process.env.MONGO_URI;
 
 app.use(express.json())
-app.use(cors())
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://your-frontend.vercel.app' 
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true, 
+}));
 const connectDB= async()=>{
     try {
         mongoose.connection.on('connected', ()=> {console.log('Database connected');}

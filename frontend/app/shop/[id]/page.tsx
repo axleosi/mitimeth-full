@@ -25,8 +25,8 @@ const ProductPage = () => {
   const [cartSuccess, setCartSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    if (productId) fetchProduct(productId);
-  }, [productId]);
+  if (productId) fetchProduct(productId);
+}, [productId, fetchProduct]);
 
   const increment = () => {
     if (product && quantity < 10) {
@@ -40,54 +40,70 @@ const ProductPage = () => {
     }
   };
 
-  const handleAddToCart = async () => {
-    try {
-      if (product) {
-        await addToCart(product, quantity, product.imageUrl);
-        setCartSuccess('Product added to cart!');
-        setCartError(null);
-      }
-    } catch (err: any) {
-      setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
-      setCartSuccess(null);
-    }
-  };
+ 
 
-  const checkOut = async () => {
-    if (!isLoggedIn) {
-      router.push('/signup');
-      return;
-    }
-
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      setCartError('No auth token found. Please log in again.');
-      return;
-    }
-
-    try {
-      await axios.post(
-        'http://localhost:3000/api/cart',
-        {
-          productId: product?._id,
-          quantity,
-          imageUrl: product?.imageUrl,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+const handleAddToCart = async () => {
+  try {
+    if (product) {
+      await addToCart(product, quantity, product.imageUrl);
       setCartSuccess('Product added to cart!');
       setCartError(null);
-      router.push('/cart')
-    } catch (err: any) {
-      setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
-      setCartSuccess(null);
     }
-  };
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
+    } else if (err instanceof Error) {
+      setCartError('Failed to add to cart: ' + err.message);
+    } else {
+      setCartError('Failed to add to cart: Unknown error');
+    }
+    setCartSuccess(null);
+  }
+};
+
+
+  const checkOut = async () => {
+  if (!isLoggedIn) {
+    router.push('/signup');
+    return;
+  }
+
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    setCartError('No auth token found. Please log in again.');
+    return;
+  }
+
+  try {
+    await axios.post(
+      'http://localhost:3000/api/cart',
+      {
+        productId: product?._id,
+        quantity,
+        imageUrl: product?.imageUrl,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setCartSuccess('Product added to cart!');
+    setCartError(null);
+    router.push('/cart');
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      setCartError('Failed to add to cart: ' + (err.response?.data?.message || err.message));
+    } else if (err instanceof Error) {
+      setCartError('Failed to add to cart: ' + err.message);
+    } else {
+      setCartError('Failed to add to cart: Unknown error');
+    }
+    setCartSuccess(null);
+  }
+};
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import {Formik, useFormik } from 'formik';
+import {useFormik } from 'formik';
 import * as Yup from 'yup';
 import styles from './Form.module.css'
 const Form = () => {

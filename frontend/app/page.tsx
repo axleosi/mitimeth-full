@@ -9,7 +9,7 @@ export default function Home() {
       </div>
 
       <div className="owner">
-        <h2><span>Mrs Achenyo Idachaba-Obaro</span>, our founder<br/>"At Mitimeth, we are turning an invasive aquatic weed into intricately woven pieces that add beauty to your space while creating a source of livelihoods for our community."</h2>
+        <h2><span>Mrs Achenyo Idachaba-Obaro</span>, our founder<br/>&quot;At Mitimeth, we are turning an invasive aquatic weed into intricately woven pieces that add beauty to your space while creating a source of livelihoods for our community.&quot;</h2>
       </div>
 
       <div className="images">

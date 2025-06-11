@@ -6,7 +6,7 @@ const Other = () => {
     <div className={styles.container}>
         <div className={styles.banana}>
             <h2>Banana</h2>
-            <p>Banana and plantain are tropical crops belonging to the Musa family and the world's most important food crop. In sub-Saharan Africa, Uganda is the largest producer followed by Rwanda, Ghana, Nigeria and Cameroon. With leaf sheaths that form stems, the heights of these crops range from 10-40 feet surrounded with large leaves. After the harvesting of the fruits, the stems and leaves are traditionally discarded as agricultural residues. In Nigeria, they contribute to national food security, employment and diversified income in rural and urban areas.</p>
+            <p>Banana and plantain are tropical crops belonging to the Musa family and the world&apos;s most important food crop. In sub-Saharan Africa, Uganda is the largest producer followed by Rwanda, Ghana, Nigeria and Cameroon. With leaf sheaths that form stems, the heights of these crops range from 10-40 feet surrounded with large leaves. After the harvesting of the fruits, the stems and leaves are traditionally discarded as agricultural residues. In Nigeria, they contribute to national food security, employment and diversified income in rural and urban areas.</p>
         </div>
 
         <div className={styles.paper}>

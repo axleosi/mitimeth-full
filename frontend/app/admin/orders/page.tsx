@@ -38,7 +38,7 @@ export default function AdminOrders() {
         });
         setOrders(res.data);
         setError('');
-      } catch (err) {
+      } catch{
         setError('Failed to fetch orders');
       }
     }

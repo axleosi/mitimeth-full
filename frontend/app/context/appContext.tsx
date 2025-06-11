@@ -1,9 +1,8 @@
 'use client'
-import React from 'react'
-import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios'
-import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 type Product = {
   _id: string;
@@ -57,8 +56,6 @@ interface AppContextType {
 interface JwtPayload {
   exp: number;
 }
-
-
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -125,8 +122,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           )
         );
         localStorage.removeItem('guestCart');
-      } catch (err: any) {
-        console.error('Failed to sync guest cart:', err.message || err);
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          console.error('Failed to sync guest cart:', err.message);
+        } else if (err instanceof Error) {
+          console.error('Failed to sync guest cart:', err.message);
+        } else {
+          console.error('Failed to sync guest cart:', err);
+        }
       }
     }
 
@@ -141,8 +144,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         await axios.delete(`http://localhost:3000/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-      } catch (err: any) {
-        console.error('Failed to clear backend cart:', err.message || err);
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          console.error('Failed to clear backend cart:', err.message);
+        } else if (err instanceof Error) {
+          console.error('Failed to clear backend cart:', err.message);
+        } else {
+          console.error('Failed to clear backend cart:', err);
+        }
       }
     }
 
@@ -156,8 +165,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setCartItems([]);
     router.push('/');
   };
-
-
 
   const fetchProduct = useCallback(async (productId: string) => {
     try {
@@ -219,8 +226,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     await fetchCartCount();
   };
-
-
 
   const value: AppContextType = {
     product,
