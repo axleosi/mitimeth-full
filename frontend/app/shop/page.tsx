@@ -14,6 +14,8 @@ type Product = {
 
 const Shop = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log(apiUrl);
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
